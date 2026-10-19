@@ -2,10 +2,15 @@
 
 Prototype chạy thật cho đề Product B (RFP `YCL-RFP-2026-01 v2.0`), dựng tiếp từ gói đề xuất LAB-1.
 
-- **URL:** _(điền sau khi deploy Vercel)_
-- **Tài khoản demo cho giảng viên:** _(điền sau khi tạo user trong Supabase Auth)_
+- **URL:** https://yuki-cold-chain-prototype-mia-aidd.vercel.app — mở lên là gặp màn ログイン (luôn trỏ tới bản deploy mới nhất; link đã nộp https://yuki-cold-chain-prototype-azmnuz055-mia-aidd.vercel.app là bản deploy lúc nộp bài)
+- **Tài khoản demo:** `demo@yuki-lab.test` / `__________` — giữ dùng được tới hết LAB-6, không đổi/xóa
+- **Source:** https://github.com/ngocntb-3518/yuki-cold-chain-prototype
+- **Supabase project:** https://supabase.com/dashboard/project/plzlnpunglnwrqnrztoc (ref `plzlnpunglnwrqnrztoc`)
 - **Stack:** Next.js 15 (App Router) · Supabase (Postgres + Auth) · Vercel
 - **Ngôn ngữ giao diện:** tiếng Nhật (theo NFR-LOC-01 của RFP — khách hàng Nhật)
+
+> **Lỗi kết nối DB / không đăng nhập được?** Project Supabase gói free tự **pause** sau ~7 ngày không có truy cập.
+> Mở link Supabase project ở trên → bấm **Resume project** → chờ 1–2 phút rồi tải lại app.
 
 ---
 
@@ -85,7 +90,16 @@ cp .env.example .env.local   # điền URL và publishable key của project Sup
 npm run dev
 ```
 
-Database: chạy 2 file trong `supabase/migrations/` rồi `supabase/seed.sql` (Supabase SQL Editor hoặc CLI `supabase db push` + seed).
+`.env.local` cần 2 biến (lấy ở Supabase → Project Settings → API Keys); trên Vercel khai báo đúng 2 biến này ở Environment Variables:
+
+| Biến | Giá trị |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | `https://plzlnpunglnwrqnrztoc.supabase.co` |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | publishable key `sb_publishable_…` (thiếu/sai key → đăng nhập luôn báo sai mật khẩu) |
+
+Database (project mới): chạy 2 file trong `supabase/migrations/` rồi `supabase/seed.sql` (Supabase SQL Editor hoặc CLI `supabase db push` + seed).
+
+**Reset dữ liệu demo** (sau khi đã thử 引当・公開・入荷…): dán toàn bộ `supabase/reset-demo.sql` vào SQL Editor → Run. File này truncate các bảng nghiệp vụ rồi nạp lại seed; không đụng tới tài khoản đăng nhập (`auth.users`). Ngày giờ trong seed tính theo lúc chạy, nên reset ngay trước buổi demo để alarm còn đếm ngược.
 
 Kiểm tra:
 
